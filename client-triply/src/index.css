@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+body {
+  background-color: #F7F9FB; /* snow */
+  color: #2A6F97; /* primary */
+}
