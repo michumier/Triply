@@ -13,7 +13,15 @@ export const WelcomePage = () => {
             <nav className="bg-white bg-opacity-95 shadow-sm p-4 flex justify-between items-center">
                 <h1 className="text-2xl font-bold text-primary">Triply 🌍</h1>
                 <div className="flex items-center gap-4">
-                    <span className="text-gray-600">Hola, {user?.fullName}</span>
+                    <button
+                        onClick={() => navigate("/profile")}
+                        className="flex items-center gap-3 text-primary hover:text-secondary font-medium transition group"
+                    >
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-sm group-hover:scale-110 transition">
+                            {user?.fullName?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'U'}
+                        </div>
+                        <span className="hidden sm:inline">{user?.fullName}</span>
+                    </button>
                     <button
                         onClick={logout}
                         className="text-coral hover:text-red-600 font-medium transition"
@@ -33,7 +41,8 @@ export const WelcomePage = () => {
                     </p>
                     <button 
                         onClick={() => navigate("/new-trip")}
-                        className="mt-8 bg-coral text-white px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl hover:bg-opacity-90 transition transform hover:-translate-y-1"
+                        style={{ backgroundColor: "#F7EF8B" }}
+                        className="mt-8 bg-sand text-primary px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl hover:bg-opacity-90 transition transform hover:-translate-y-1"
                     >
                         Iniciar Nuevo Viaje
                     </button>
@@ -65,7 +74,7 @@ export const WelcomePage = () => {
                     <div className="grid md:grid-cols-3 gap-6">
                         {/* Card 1 */}
                         <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2">
-                            <div className="h-48 bg-gradient-to-br from-sand to-coral"></div>
+                            <div className="h-48 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&h=600&fit=crop)' }}></div>
                             <div className="p-6">
                                 <h4 className="text-xl font-bold text-primary mb-2">Barcelona Romántica</h4>
                                 <p className="text-gray-600 text-sm mb-4">5 días • 2 personas • En pareja</p>
@@ -82,7 +91,7 @@ export const WelcomePage = () => {
 
                         {/* Card 2 */}
                         <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2">
-                            <div className="h-48 bg-gradient-to-br from-secondary to-primary"></div>
+                            <div className="h-48 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&h=600&fit=crop)' }}></div>
                             <div className="p-6">
                                 <h4 className="text-xl font-bold text-primary mb-2">Aventura en Tokio</h4>
                                 <p className="text-gray-600 text-sm mb-4">7 días • 4 personas • Con amigos</p>
@@ -99,7 +108,7 @@ export const WelcomePage = () => {
 
                         {/* Card 3 */}
                         <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2">
-                            <div className="h-48 bg-gradient-to-br from-primary to-sand"></div>
+                            <div className="h-48 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&h=600&fit=crop)' }}></div>
                             <div className="p-6">
                                 <h4 className="text-xl font-bold text-primary mb-2">París Cultural</h4>
                                 <p className="text-gray-600 text-sm mb-4">4 días • 1 persona • Solo</p>

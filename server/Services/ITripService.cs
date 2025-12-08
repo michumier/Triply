@@ -1,8 +1,11 @@
+using server.Models;
+
 namespace server.Services
 {
     public interface ITripService
     {
-        // Define methods here later
         string GetPlaceholder();
+        Task<Trip> CreateTripAsync(Trip trip);
+        Task<List<Trip>> GetUserTripsAsync(int userId);
     }
 }
