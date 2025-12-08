@@ -1,122 +1,160 @@
-# 🌍 Triply — Plataforma de Planificación Inteligente de Viajes
+# Triply - Aplicación de Planificación de Viajes
 
-Triply es una aplicación web diseñada para ayudar a los usuarios a planificar viajes personalizados de forma rápida, sencilla e inteligente. Combina preferencias del usuario con un modelo de IA alojado en HuggingFace, capaz de generar itinerarios detallados adaptados a cada experiencia.
+Aplicación full-stack para planificar y gestionar viajes, construida con React + TypeScript (frontend) y ASP.NET Core (backend).
 
-## 🚀 Descripción General
+## 🚀 Cómo arrancar la aplicación
 
-Triply permite que cualquier usuario, tras iniciar sesión, pueda crear un viaje ajustado exactamente a sus gustos. El proceso consiste en seleccionar:
+### Requisitos previos
 
-*   Un destino
-*   El número de días
-*   Las personas participantes
-*   Los intereses clave del viaje (gastronomía, museos, fiesta, ocio, fútbol, viaje en pareja, viaje con amigos, etc.)
-*   Los medios de transporte
+- .NET 9.0 SDK
+- Node.js (v18 o superior)
+- MySQL Server
+- Base de datos `triply` creada en MySQL
 
-Con esta información, Triply envía los datos a un modelo de IA que genera automáticamente un informe personalizado del viaje, el cual incluye:
+---
 
-*   Recomendaciones diarias de actividades
-*   Restaurantes y zonas para comer
-*   Sitios icónicos y lugares de interés
-*   Planes adaptados al estilo del viajero
-*   Sugerencias de alojamiento
-*   Consejos útiles específicos del destino
+### 1️⃣ Arrancar el Backend (API)
 
-Además, la plataforma cuenta con un pequeño apartado social donde los usuarios pueden ver itinerarios recientes creados por otras personas, sirviendo como inspiración para futuras aventuras.
+```bash
+cd server
+dotnet run
+```
 
-El objetivo general de Triply es transformar el proceso de planificación de viajes en algo cómodo, intuitivo y casi instantáneo, ofreciendo al usuario itinerarios útiles sin necesidad de pasar horas buscando información en blogs o redes sociales.
+El backend estará disponible en: **http://localhost:5222**
 
-## 🧩 Funcionalidades Principales
+**Nota**: Asegúrate de que la base de datos MySQL esté corriendo y que la cadena de conexión en `server/appsettings.json` sea correcta.
 
-### 🔐 Autenticación
-*   Login con email
-*   Gestión básica de usuarios
-*   Pantalla de bienvenida tras iniciar sesión
+---
 
-### 🏠 Pantalla Principal
-*   Visualización de viajes recurrentes o recomendados
-*   Buscador de ciudades
-*   Mapa interactivo con destinos disponibles
-*   Botón “Iniciar nuevo viaje”
+### 2️⃣ Arrancar el Frontend (React)
 
-### ✈️ Creación de un Nuevo Viaje
-*   Selección de:
-    *   Destino
-    *   Número de días
-    *   Número de participantes
-    *   Intereses (checklist):
-        *   Gastronomía
-        *   Lugares icónicos
-        *   Museos
-        *   Fiesta
-        *   Ocio
-        *   Con amigos
-        *   En pareja
-        *   Fútbol
-        *   Otros
-    *   Medios de transporte
-*   Proceso automático:
-    *   Envío de la información al modelo de IA en HuggingFace
-    *   Generación de informe personalizado
-    *   Visualización del itinerario al usuario
+En una **nueva terminal**:
 
-### 👤 Pantalla de Perfil
-*   Viajes ya realizados por el usuario
-*   Acceso a informes generados anteriormente
+```bash
+cd client-triply
+npm install  # Solo la primera vez
+npm run dev
+```
 
-### 🌐 Pantalla Social
-*   Listado de viajes recientes creados por otros usuarios
-*   Inspiración para nuevos viajes
+El frontend estará disponible en: **http://localhost:5173**
 
-### ❓ Pantalla de Ayuda
-*   Preguntas frecuentes
-*   Guía para crear un viaje
-*   Información de soporte
+---
 
-## 🛠️ Requisitos Técnicos
+## 📁 Estructura del Proyecto
 
-### 🖥️ Frontend (React)
-*   Diseño limpio y accesible
-*   Consumo de API REST
-*   Manejo de estado global
-*   Mapa interactivo (Leaflet, Mapbox o Google Maps)
+```
+Triply/
+├── server/              # Backend ASP.NET Core
+│   ├── Controllers/     # Controladores de API
+│   ├── Models/          # Modelos de datos
+│   ├── Services/        # Lógica de negocio
+│   ├── Data/            # DbContext y configuración
+│   └── Database/        # Scripts SQL
+│
+└── client-triply/       # Frontend React + TypeScript
+    ├── src/
+    │   ├── components/  # Componentes reutilizables
+    │   ├── pages/       # Páginas de la aplicación
+    │   ├── context/     # Context API (Auth, etc.)
+    │   └── services/    # Servicios de API
+    └── public/
+```
 
-### ⚙️ Backend (.NET)
-*   API REST con endpoints para:
-    *   Autenticación
-    *   Gestión de usuarios
-    *   CRUD de viajes
-    *   Solicitudes a HuggingFace
-    *   Guardado y recuperación de itinerarios
-    *   Comunicación vía HTTP con modelo de IA
+---
 
-### 🗄️ Base de Datos (MySQL)
-*   Tablas principales:
-    *   `Users`
-    *   `Trips`
-    *   `TripPreferences`
-    *   `GeneratedReports`
+## 🗄️ Base de Datos
 
-## 🎯 Objetivo del Proyecto
+### Configurar la base de datos
 
-El propósito de Triply es ofrecer una experiencia completa de planificación de viajes con un enfoque moderno y personalizado. La plataforma combina simplicidad, recomendaciones basadas en IA y un entorno social ligero para ayudar a cualquier usuario a obtener un itinerario único en cuestión de segundos.
+1. Crea la base de datos en MySQL:
 
-## 📚 Tecnologías Principales
+   ```sql
+   CREATE DATABASE triply;
+   ```
 
-*   **Frontend**: React
-*   **Backend**: .NET
-*   **Base de datos**: MySQL
-*   **IA**: HuggingFace (modelo generador de itinerarios)
+2. Ejecuta el script de migración (opcional, para crear todas las tablas):
 
-🎨 Paleta Colores — “Coastal Breeze” (moderna, limpia, muy viajera)
+   ```bash
+   mysql -u root -p triply < server/Database/migration.sql
+   ```
 
-Ideal si quieres una web fresca y luminosa.
+3. Actualiza la cadena de conexión en `server/appsettings.json`:
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "server=localhost;port=3306;database=triply;user=root;password=TU_PASSWORD;"
+     }
+   }
+   ```
 
-Azul océano (primario): #2A6F97
+---
 
-Azul claro (secundario): #61A5C2
+## 🔑 Autenticación
 
-Arena suave: #E9D8A6
+La aplicación usa JWT (JSON Web Tokens) para autenticación:
 
-Coral suave (acento): #EE6C4D
+- Los tokens se generan en el backend al hacer login/registro
+- El frontend almacena el token en localStorage
+- Las peticiones autenticadas incluyen el token en el header `Authorization`
 
-Blanco nieve: #F7F9FB
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+### Backend
+
+- ASP.NET Core 9.0
+- Entity Framework Core
+- MySQL (Pomelo.EntityFrameworkCore.MySql)
+- JWT Authentication
+- BCrypt para hashing de contraseñas
+
+### Frontend
+
+- React 19
+- TypeScript
+- Vite
+- React Router
+- Tailwind CSS v4
+- Lucide React (iconos)
+
+---
+
+## 📝 Endpoints de API
+
+### Autenticación
+
+- `POST /api/auth/register` - Registrar nuevo usuario
+- `POST /api/auth/login` - Iniciar sesión
+
+### Usuarios
+
+- `GET /api/user` - Obtener todos los usuarios
+- `GET /api/user/{id}` - Obtener usuario por ID
+
+---
+
+## 🎨 Paleta de Colores (Coastal Breeze)
+
+- **Primary**: `#2A6F97` - Azul océano
+- **Secondary**: `#61A5C2` - Azul cielo
+- **Sand**: `#E9D8A6` - Arena
+- **Coral**: `#EE6C4D` - Coral
+- **Snow**: `#F7F9FB` - Blanco nieve
+
+---
+
+## 👥 Desarrollo
+
+Para contribuir al proyecto:
+
+1. Clona el repositorio
+2. Crea una rama para tu feature: `git checkout -b feature/nueva-funcionalidad`
+3. Realiza tus cambios y haz commit
+4. Push a tu rama y crea un Pull Request
+
+---
+
+## 📄 Licencia
+
+Este proyecto es privado y está en desarrollo.
