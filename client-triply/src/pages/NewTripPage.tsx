@@ -205,15 +205,23 @@ export const NewTripPage = () => {
                             <p className="text-sm text-gray-500 mt-1">Opcional - nos ayuda a personalizar mejor tu viaje</p>
                         </div>
 
+                        {/* Error Message */}
+                        {error && (
+                            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-4">
+                                {error}
+                            </div>
+                        )}
+
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            className="w-full text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1"
+                            disabled={loading}
+                            className={`w-full text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
                             style={{
                                 background: "linear-gradient(90deg, #2A6F97 0%, #1F5675 100%)"
                             }}
                         >
-                            Generar Mi Viaje con IA ✨
+                            {loading ? 'Generando Viaje...' : 'Generar Mi Viaje con IA ✨'}
                         </button>
                     </form>
                 </div>

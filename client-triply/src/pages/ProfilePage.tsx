@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, User, Mail, LogOut } from "lucide-react";
+import { ArrowLeft, Mail, LogOut } from "lucide-react";
 import { TripCard, type Trip } from "../components/TripCard";
 import { userService } from "../services/userService";
 
