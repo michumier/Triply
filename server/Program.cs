@@ -48,6 +48,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITripService, TripService>();
 builder.Services.AddHttpClient<IHuggingFaceService, HuggingFaceService>();
+builder.Services.AddSingleton<QwenService>();
+
 
 var app = builder.Build();
 

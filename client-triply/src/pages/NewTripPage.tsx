@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapPin, Calendar, Users, Heart, Utensils, Camera, Music, Plane, ArrowLeft } from "lucide-react";
+import { tripService } from "../services/tripService";
 
 export const NewTripPage = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const [formData, setFormData] = useState({
         destination: "",
         days: "",
@@ -41,11 +44,26 @@ export const NewTripPage = () => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Trip data:", formData);
-        // Aquí irá la llamada a la API para generar el viaje
-        alert("¡Generando tu viaje personalizado! (Próximamente con IA)");
+        setError("");
+        setLoading(true);
+
+        try {
+            console.log("📤 Enviando datos del viaje:", formData);
+            
+            const aiResponse = await tripService.generateTrip(formData);
+            
+            console.log("🤖 Respuesta de la IA:", aiResponse);
+            console.log("✅ Viaje generado exitosamente!");
+            
+            alert("¡Viaje generado! Revisa la consola para ver la respuesta de la IA.");
+        } catch (error) {
+            console.error("❌ Error al generar viaje:", error);
+            setError(error instanceof Error ? error.message : "Error al generar el viaje");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
