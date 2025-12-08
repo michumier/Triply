@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: triply-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: triply
+      MYSQL_USER: triply_user
+      MYSQL_PASSWORD: triply_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./server/Database/bd-structure.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - triply-network
+
+  # .NET Backend API
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: triply-backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5222
+      - ConnectionStrings__DefaultConnection=Server=mysql;Database=triply;User=triply_user;Password=triply_password;
+      - Jwt__Key=your-super-secret-jwt-key-change-this-in-production-minimum-32-characters
+      - Jwt__Issuer=TriplyAPI
+      - Jwt__Audience=TriplyClient
+      - HuggingFace__ApiKey=${HUGGINGFACE_API_KEY:-your-api-key-here}
+      - HuggingFace__ModelId=meta-llama/Llama-3.2-8B-Instruct
+    ports:
+      - "5222:5222"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - triply-network
+    restart: unless-stopped
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./client-triply
+      dockerfile: Dockerfile
+    container_name: triply-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - triply-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  triply-network:
+    driver: bridge
